@@ -1,0 +1,50 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["clientExtensions"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DB_URL")
+}
+
+model Product {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  price       Float     @default(0)
+  stock       Int       @default(0)
+  title       String
+  description String?
+  photo       String
+  dir         String?
+  category    String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  item        Item?     @relation(fields: [itemId], references: [id])
+  itemId      String?   @db.ObjectId
+}
+
+model Item {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  quantity      Int       @default(0)
+  price         Float     @default(0)
+  subTotalPrice Float     @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+  Cart          Cart?     @relation(fields: [cartId], references: [id])
+  cartId        String?   @db.ObjectId
+  Product       Product[]
+  productId     String    @db.ObjectId
+}
+
+model Cart {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  items      Item[]
+  userId     String?
+  totalPrice Int       @default(0)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+}
