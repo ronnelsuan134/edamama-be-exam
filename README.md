@@ -26,6 +26,14 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Copy env file
+cp .env.example .env
+
+## At .env file add auth Id variable with random string value for static Id
+
+## auth Id =
+
+
 ## Installation
 
 ```bash
